@@ -1,3 +1,19 @@
+<?php
+
+require_once 'core/core.php';
+global $database;
+
+$status = '';
+
+// parse post data
+if(isset($_POST['create_item'])){
+    $item = new Item(0, $_POST['item_name'], $_POST['nr_steps']);
+    $res = $item->insert_into_database();
+    if($res) $status = '<h4 style="color:green;">Item hinzugefügt!</h4>';
+    else $status = '<h4 style="color:red;">Item konnte nicht hinzugefügt werden!</h4>';
+}
+
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -21,7 +37,9 @@
                 <div class="container">
                     <div class="navbar-header">
                         <button id="navbar-collapse-button" type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                            <span class="sr-only"></span>
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
                         <h3 id="title"><a href=""><img id="logo" height="30" src="res/logo.png" alt="<?php echo 'BitFit Store'; ?>"></a></h3>
@@ -38,7 +56,7 @@
                 <div id="main-container" class="container" style="padding-left:0;">
                     <div id="head" class="row">
                         <div class="col-sm-12">
-
+                            <?php echo $status; ?>
                         </div>
                     </div>
                     <div id="main-content-container" class="row">
