@@ -44,19 +44,22 @@
 
 <body>
     <div class="app">
-        <h1>BitFit</h1>
-        <div id="deviceready" class="blink">
-            <p class="event listening">Connecting to Device</p>
-            <p class="event received">Device is Ready</p>
+        <div class="center">
+            <img id="logo" src="./img/logo.png" height="40" />
+            <div id="deviceready" class="blink">
+                <p class="event authenticating">Waiting for Authentication</p>
+                <p class="event connecting">Connecting to API</p>
+                <p class="event loading">Loading Data</p>
+            </div>
         </div>
     </div>
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="js/jquery.js"></script>
     <script type="text/javascript" src="js/oauth2.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript" src="js/visuals.js"></script>
     <script type="text/javascript" charset="utf-8">
-
-        $.oauth2({
+        $.o1auth2({
             auth_url: 'https://www.fitbit.com/oauth2/authorize',           // required
             response_type: 'token',      // required  - "code"/"token"
             token_url: '',          // required for response_type ="code"
@@ -69,12 +72,12 @@
                 expires_in: 604800
             } // optional params object for scope, state, ...
         }, function(token, response){
-            alert(response);
+            //alert(response);
             // do something with token or response
         }, function(error, response){
-            alert(response);
+            //alert(response);
             // do something with error object
-        }); 
+        });
 
     </script>
 
