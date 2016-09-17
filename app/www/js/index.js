@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-var serverUrl = 'http://172.31.2.42/bitfit/server/';
+var serverUrl = 'http://192.168.1.94/bitfit/server/';
 
 var app = {
     // Application Constructor
