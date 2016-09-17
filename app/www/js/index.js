@@ -62,19 +62,31 @@ var app = {
             }
             var userId = $.urlParam('user_id', response);
             $('.event.authenticating').css("display","none");
-            app.gatherData(token, userId);
+            app.outputOurData(app.gatherOurData(token, userId));
+            
         }, function(error, response){
             alert(response);
         });
     },
-    gatherData: function(token, userId) {
+    gatherOurData: function(token, userId) {
+        
+        var output;
         $('.event.loading').css("display","inline-block");
         $.ajax({
             url: serverUrl + 'api/?request=items&access_token=' + token + '&user_id=' + userId,
             success: function(data) {
+                data = "{\"status\":0,\"message\":\"\",\"collections\":{\"1\":{\"id\":\"1\",\"name\":\"Collection 1\",\"items\":{\"1\":{\"id\":\"1\",\"coll_id\":\"1\",\"name\":\"Test\",\"description\":\"\",\"nr_steps\":\"100\"},\"2\":{\"id\":\"2\",\"coll_id\":\"1\",\"name\":\"Test\",\"description\":\"\",\"nr_steps\":\"100\"},\"3\":{\"id\":\"3\",\"coll_id\":\"1\",\"name\":\"Asdf\",\"description\":\"\",\"nr_steps\":\"999\"},\"4\":{\"id\":\"4\",\"coll_id\":\"1\",\"name\":\"Objekt\",\"description\":\"\",\"nr_steps\":\"488\"},\"5\":{\"id\":\"5\",\"coll_id\":\"1\",\"name\":\"Objekt\",\"description\":\"\",\"nr_steps\":\"488\"},\"6\":{\"id\":\"6\",\"coll_id\":\"1\",\"name\":\"Item'%934\u00ae@\u2202#\u00c7[\",\"description\":\"\",\"nr_steps\":\"800\"},\"8\":{\"id\":\"8\",\"coll_id\":\"1\",\"name\":\"haha\",\"description\":\"\",\"nr_steps\":\"80\"},\"10\":{\"id\":\"10\",\"coll_id\":\"1\",\"name\":\"asdf\",\"description\":\"\",\"nr_steps\":\"8080\"},\"11\":{\"id\":\"11\",\"coll_id\":\"1\",\"name\":\"haha\",\"description\":\"\",\"nr_steps\":\"80\"},\"12\":{\"id\":\"12\",\"coll_id\":\"1\",\"name\":\"haha\",\"description\":\"\",\"nr_steps\":\"80\"},\"13\":{\"id\":\"13\",\"coll_id\":\"1\",\"name\":\"haha\",\"description\":\"\",\"nr_steps\":\"80\"}}},\"5\":{\"id\":\"5\",\"name\":\"Collection 2\",\"items\":{\"1\":{\"id\":\"1\",\"coll_id\":\"5\",\"name\":\"asdf\",\"description\":\"asdf\",\"nr_steps\":\"1000\"}}}}}");
                 alert(data);
+                output = data;
+
             }
         });
         $('.event.loading').css("display","none");
+        return output;
+    },
+    
+    outputOurData: function(data) {
+        alert(data);
+        $.each(data.collections, function(index, object) {$("#list").append("<a class='collection col-6' href='#'>" + object.name +"</a>")});
     }
 };
