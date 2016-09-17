@@ -6,6 +6,7 @@ class User {
     var $name;
     var $bits;
     
+    private $fitbit;
     private $access_token;
     
     public function __construct($id, $data = null) {
@@ -35,6 +36,8 @@ class User {
             $database->bind('bits', $this->bits);
             $database->execute();
         }
+        
+        $this->fitbit = new FitBit();
     }
     
     public function update_in_database() {
@@ -57,10 +60,13 @@ class User {
     }
     
     public function refresh_bits_count() {
-        global $fitbit;
-        $fitbit->init($this->id, $this->get_access_token());
-        $data = $fitbit->get_data('user/[user-id]/activities/date/2016-09-17.json');
+        $this->fitbit->init($this->id, $this->get_access_token());
+        $data = $this->fitbit->get_data('user/[user-id]/activities/date/2016-09-17.json');
         
         return $data;
+    }
+    
+    public function has_item_completed($item){
+        return $item->is_done_by_user($this);
     }
 }
