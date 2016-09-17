@@ -75,6 +75,7 @@ var app = {
         $.ajax({
             url: serverUrl + 'api/?request=items&access_token=' + token + '&user_id=' + userId
         }).done(function(data) {
+            Console.log("Data gathered:\n" + data);    
             app.outputOurData(jQuery.parseJSON( data));
         });
         $('.event.loading').css("display","none");
@@ -83,6 +84,6 @@ var app = {
     outputOurData: function(data) {
         $.each(data.collections, function(index, object) {$("#list").append("<a class='collection col-6' href='#'>" + object.name +"</a>")});
         app.viewPage('collections');
-        
+
     }
 };
