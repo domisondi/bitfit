@@ -24,7 +24,7 @@
                             <span class="sr-only"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <h3 id="title"><a href=""><img id="logo" height="55" src="" alt="<?php echo 'BitFit Store'; ?>"></a><?php echo 'BitFit Store'; ?></h3>
+                        <h3 id="title"><a href=""><img id="logo" height="30" src="res/logo.png" alt="<?php echo 'BitFit Store'; ?>"></a></h3>
                     </div>
                     <div class="navbar-collapse collapse">
                         <ul id="navbar-content" class="nav navbar-nav navbar-right">
