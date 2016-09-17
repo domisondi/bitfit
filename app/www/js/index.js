@@ -16,6 +16,8 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+var serverUrl = 'http://172.31.2.42/bitfit/server/';
+
 var app = {
     // Application Constructor
     initialize: function() {
@@ -33,17 +35,46 @@ var app = {
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
-        app.receivedEvent('deviceready');
+        app.authenticateUser();
     },
-    // Update DOM on a Received Event
-    receivedEvent: function(id) {
-        var parentElement = document.getElementById(id);
-        var listeningElement = parentElement.querySelector('.listening');
-        var receivedElement = parentElement.querySelector('.received');
-
-        listeningElement.setAttribute('style', 'display:none;');
-        receivedElement.setAttribute('style', 'display:block;');
-
-        console.log('Received Event: ' + id);
+    viewPage: function(pageId) {
+        $('.page').hide();
+        $('#' + pageId).show();
+    },
+    authenticateUser: function() {
+        $('.event.authenticating').css("display","inline-block");
+        $.oauth2({
+            auth_url: 'https://www.fitbit.com/oauth2/authorize',
+            response_type: 'token',
+            token_url: '',
+            logout_url: '',
+            client_id: '227Z6J',
+            client_secret: '',
+            redirect_uri: serverUrl + '?page=callback',
+            other_params: {
+                scope: 'activity',
+                expires_in: 604800
+            }
+        }, function(token, response){
+            $.urlParam = function(name, response){
+                var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(response);
+                return results[1] || 0;
+            }
+            var userId = $.urlParam('user_id', response);
+            $('.event.authenticating').css("display","none");
+            app.gatherData(token, userId);
+        }, function(error, response){
+            alert(response);
+        });
+    },
+    gatherData: function(token, userId) {
+        $('.event.loading').css("display","inline-block");
+        $.ajax({
+            url: serverUrl + 'api/?request=items&access_token=' + token + '&user_id=' + userId,
+            success: function(data) {
+                alert(data);
+            }
+        });
+        $('.event.loading').css("display","none");
     }
 };
