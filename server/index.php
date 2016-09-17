@@ -7,10 +7,10 @@ $status = '';
 
 // parse post data
 if(isset($_POST['create_item'])){
-    $item = new Item(0, $_POST['item_name'], $_POST['nr_steps']);
+    $item = new Item($_POST['id'], $_POST['coll_id'], $_POST['item_name'], $_POST['nr_steps']);
     $res = $item->insert_into_database();
-    if($res) $status = '<h4 style="color:green;">Item hinzugefügt!</h4>';
-    else $status = '<h4 style="color:red;">Item konnte nicht hinzugefügt werden!</h4>';
+    if($res) $status = '<h4 style="color:green;">Item added!</h4>';
+    else $status = '<h4 style="color:red;">Item could not be added!</h4>';
 }
 
 ?>
@@ -62,27 +62,12 @@ if(isset($_POST['create_item'])){
                     <div id="main-content-container" class="row">
                         <div id="content-wrapper" class="col-sm-12">
                             <?php switch($_GET['page']){
-                                default: ?>
-                            
-                            <div class="container" id="homepage-form">
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <form action="" method="POST">
-                                            <div class="form-group">
-                                                <label>Item-Name<input type="text" class="form-control" name="item_name" value="" placeholder="Dein Item-Name..."></label>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Anzahl Schritte<input type="number" class="form-control" name="nr_steps" value="" placeholder="100000"></label>
-                                            </div>
-                                            <div class="form-group">
-                                                <input type="submit" class="btn btn-primary" name="create_item" value="Erstellen">
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                                    <?php break;
+                                case 'callback': 
+                                    require 'pages/callback.php';
+                                    break;
+                                default:
+                                    require 'pages/default.php';
+                                    break;
                             } ?>
                         </div>
                     </div>
