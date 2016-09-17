@@ -51,7 +51,33 @@
         </div>
     </div>
     <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/oauth2.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript" charset="utf-8">
+
+        $.oauth2({
+            auth_url: 'https://www.fitbit.com/oauth2/authorize',           // required
+            response_type: 'token',      // required  - "code"/"token"
+            token_url: '',          // required for response_type ="code"
+            logout_url: '',         // recommended if available
+            client_id: '227Z6J',          // required
+            client_secret: '',      // required for response_type ="code"
+            redirect_uri: 'https://127.0.0.1',       // required - any dummy url http://www.yourcompany.com
+            other_params: {
+                scope: 'activity',
+                expires_in: 604800
+            } // optional params object for scope, state, ...
+        }, function(token, response){
+            alert(response);
+            // do something with token or response
+        }, function(error, response){
+            alert(response);
+            // do something with error object
+        }); 
+
+    </script>
+
     <script type="text/javascript">
         app.initialize();
     </script>
