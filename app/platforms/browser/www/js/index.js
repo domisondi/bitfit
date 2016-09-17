@@ -62,19 +62,29 @@ var app = {
             }
             var userId = $.urlParam('user_id', response);
             $('.event.authenticating').css("display","none");
-            app.gatherData(token, userId);
+            app.outputOurData(app.gatherOurData(token, userId));
+            
         }, function(error, response){
             alert(response);
         });
     },
-    gatherData: function(token, userId) {
+    gatherOurData: function(token, userId) {
+        
+        var output;
         $('.event.loading').css("display","inline-block");
         $.ajax({
             url: serverUrl + 'api/?request=items&access_token=' + token + '&user_id=' + userId,
             success: function(data) {
                 alert(data);
+                output = jQuerry.parseJSON(data);
+
             }
         });
         $('.event.loading').css("display","none");
+        return output;
+    },
+    
+    outputOurData: function(data) {
+        $.each(data.collections, function(index, object) {$("#list").append("<a class='collection col-6' href='#'>" + object.name +"</a>")});
     }
 };
