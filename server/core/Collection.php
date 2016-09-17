@@ -24,4 +24,20 @@ class Collection {
         }
         else throw new Exception ('Collection not found!');
     }
+    
+    public function insert_into_database() {
+        global $database;
+        $database->beginTransaction();
+        $database->query("INSERT INTO collections (name) VALUES (:name)");
+        $database->bind('name', $this->name);
+        $res = $database->execute();
+        if($res===false) {
+            $database->cancelTransaction();
+            return false;
+        }
+        else {
+            $database->endTransaction();
+            return true;
+        }
+    }
 }

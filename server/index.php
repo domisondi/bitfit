@@ -7,10 +7,16 @@ $status = '';
 
 // parse post data
 if(isset($_POST['create_item'])){
-    $item = new Item($_POST['id'], $_POST['coll_id'], $_POST['item_name'], $_POST['nr_steps']);
+    $item = new Item(0, $_POST['coll_id'], $_POST['item_name'], $_POST['nr_steps']);
     $res = $item->insert_into_database();
     if($res) $status = '<h4 style="color:green;">Item added!</h4>';
     else $status = '<h4 style="color:red;">Item could not be added!</h4>';
+}
+else if(isset($_POST['create_collection'])){
+    $collection = new Collection(0, array('name' => $_POST['name']));
+    $res = $collection->insert_into_database();
+    if($res) $status = '<h4 style="color:green;">Collection added!</h4>';
+    else $status = '<h4 style="color:red;">Collection could not be added!</h4>';
 }
 
 ?>
@@ -73,6 +79,7 @@ if(isset($_POST['create_item'])){
                     </div>
                 </div>
             </div>
+            <br>
             <div style="height:45px;"></div>
             <div id="footer" class="navbar navbar-inverse navbar-fixed-bottom" role="navigation">
                 <div class="container">
